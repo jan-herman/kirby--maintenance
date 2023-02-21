@@ -1,0 +1,44 @@
+type: fields
+fields:
+    maintenance_title:
+        label:
+            en: Maintenance Mode
+            cs: Režim údržby
+        type: headline
+        numbered: false
+        help:
+            en: When enabled, all anonymous users are redirected to the login form or specified URL.
+            cs: V režimu údržby jsou všichni anonymní uživatelé přesměrováni na přihlašovací obrazovku, nebo zvolenou URL.
+    maintenance_info:
+        label: false
+        type: info
+        theme: negative
+        text:
+            en: Don't forget to disable maintenance mode before publishing.
+            cs: Nezapomeňte vypnout režim údržby před publikací webu.
+        when:
+            maintenance_enabled: true
+    maintenance_enabled:
+        label:
+            en: Enable
+            cs: Zapnout
+        type: toggle
+        text:
+            -
+                en: Disabled
+                cs: Vypnuto
+            -
+                en: Enabled
+                cs: Zapnuto
+        width: 1/4
+        translate: false
+    maintenance_redirect_url:
+        label:
+            en: Redirect anonymous users to
+            cs: Přesměrovat anonymní uživatele na
+        type: url
+        placeholder: https://example.com/admin/login
+        width: 3/4
+        when:
+            maintenance_enabled: true
+        translate: false
