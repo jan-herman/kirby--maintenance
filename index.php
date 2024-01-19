@@ -1,10 +1,12 @@
 <?php
 
 use Kirby\Cms\App as Kirby;
+use Kirby\Cms\Page;
+use Kirby\Filesystem\F;
 
 Kirby::plugin('jan-herman/kirby-maintenance', [
     'blueprints' => [
-        'settings/maintenance' => __DIR__ . '/blueprints/settings/maintenance.yml',
+        'sections/settings/maintenance' => __DIR__ . '/blueprints/maintenance.yml',
     ],
     'routes' => [
         [
@@ -21,14 +23,22 @@ Kirby::plugin('jan-herman/kirby-maintenance', [
                 $site = $kirby->site();
 
                 // check if is plugin enabled
-                if (!$site->maintenance_enabled()->toBool()) {
+                if ($site->content($language->code())->maintenance_enabled()->isFalse()) {
                     $this->next();
                 }
 
                 // check if is user logged-in
                 if (!$kirby->user()) {
-                    $redirect_url = $site->maintenance_redirect_url()->isNotEmpty() ? $site->maintenance_redirect_url()->toUrl() : $site->panel()->url();
-                    go($redirect_url, 302);
+                    if ($site->maintenance_redirect_url()->isNotEmpty()) { // redirect to specified url
+                        go($site->maintenance_redirect_url()->toUrl(), 302);
+                    } elseif (F::exists($kirby->root('templates') . '/maintenance.php') || F::exists($kirby->root('templates') . '/maintenance.latte')) { // render maintenance template
+                        return new Page([
+                            'slug'     => 'home',
+                            'template' => 'maintenance'
+                        ]);
+                    } else { // redirect to login
+                        go($site->panel()->url(), 302);
+                    }
                 }
 
                 // continue the default route

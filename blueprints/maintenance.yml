@@ -5,7 +5,6 @@ fields:
             en: Maintenance Mode
             cs: Režim údržby
         type: headline
-        numbered: false
         help:
             en: When enabled, all anonymous users are redirected to the login form or specified URL.
             cs: V režimu údržby jsou všichni anonymní uživatelé přesměrováni na přihlašovací obrazovku, nebo zvolenou URL.
@@ -24,12 +23,10 @@ fields:
             cs: Zapnout
         type: toggle
         text:
-            -
-                en: Disabled
-                cs: Vypnuto
-            -
-                en: Enabled
-                cs: Zapnuto
+            - en: Disabled
+              cs: Vypnuto
+            - en: Enabled
+              cs: Zapnuto
         width: 1/4
         translate: false
     maintenance_redirect_url:
@@ -42,3 +39,5 @@ fields:
         when:
             maintenance_enabled: true
         translate: false
+    maintenance_gap:
+        type: gap
